@@ -3,18 +3,25 @@ package com.ksquare.core.entity;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 @Table(name="task")
+@Data
+@NoArgsConstructor
 @Entity
 public class Task implements Serializable {
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 8447880494554378687L;
 	
 	@GeneratedValue
@@ -28,10 +35,11 @@ public class Task implements Serializable {
 	@Column(name = "description")
 	private String description;
 	
-	// Used by Hibernate
-	public Task() {
-		
-	}
+	@ManyToOne(cascade=CascadeType.ALL)
+    @JoinTable(name="personTasks", 
+    		   joinColumns={@JoinColumn(name="taskId", referencedColumnName="taskId")},
+    		   inverseJoinColumns={@JoinColumn(name="personId", referencedColumnName="personId")})
+    private Person person;
 	
 	public Task(long taskId, LocalDateTime creationDate, LocalDateTime completionDate, String description) {
 		this.taskId = taskId;
@@ -39,37 +47,5 @@ public class Task implements Serializable {
 		this.completionDate = completionDate;
 		this.description = description;
 	}
-
-	public long getTaskId() {
-		return taskId;
-	}
-
-	public void setTaskId(long taskId) {
-		this.taskId = taskId;
-	}
-
-	public LocalDateTime getCreationDate() {
-		return creationDate;
-	}
-
-	public void setCreationDate(LocalDateTime creationDate) {
-		this.creationDate = creationDate;
-	}
-
-	public LocalDateTime getCompletionDate() {
-		return completionDate;
-	}
-
-	public void setCompletionDate(LocalDateTime completionDate) {
-		this.completionDate = completionDate;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}	
 	
 }

@@ -2,6 +2,7 @@ package com.ksquare.core.model;
 
 import java.time.LocalDateTime;
 
+import com.ksquare.core.entity.Person;
 import com.ksquare.core.entity.Task;
 
 public class MTask {
@@ -9,6 +10,8 @@ public class MTask {
 	private LocalDateTime creationDate;
 	private LocalDateTime completionDate;
 	private String description;
+	
+	private Person person;
 	
 	// To convert an entity to a model
 	public MTask(Task task) {
